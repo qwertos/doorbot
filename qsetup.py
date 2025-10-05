@@ -5,8 +5,13 @@ from qschedule import Schedule
 import fcntl
 import socket
 import struct
+import configparser
 
-botname = 'doorbot'
+config = configparser.ConfigParser()
+config.sections()
+config.read('/opt/doorbot/config.ini')
+
+botname = config["General"]["Botname"]
 
 
 # global app logging
@@ -36,7 +41,7 @@ logging.getLogger('').addHandler(console)
 botlog.setLevel(logging.DEBUG)
 
 # remote syslog
-syslog = SysLogHandler(address=('10.0.0.1', 514))
+syslog = SysLogHandler(address=(config["Syslog"]["IP"], config["Syslog"]["Port"]))
 formatter = logging.Formatter('%(asctime)s : %(message)s', datefmt='%b %d %H:%M:%S')
 syslog.setFormatter(formatter)
 botlog.addHandler(syslog)
@@ -48,9 +53,9 @@ botlog.addHandler(syslog)
 #
 #READER_TYPE = 'hid'
 
-READER_TYPE = 'serial'
-READER_DEVICE = '/dev/serial0'
-READER_BAUD_RATE = 9600
+READER_TYPE = config["Reader"]["Type"]
+READER_DEVICE = config["Reader"]["Device"]
+READER_BAUD_RATE = config["Reader"]["BaudRate"]
 
 #READER_TYPE = 'tormach'
 #READER_DEVICE = '/dev/ttyACM0'
@@ -70,10 +75,10 @@ schedule = Schedule.factory('Open')
 # door_hw.py
 #
 #
-RED_PIN = 16
-GREEN_PIN = 13
-DOOR_PIN = 4
-BEEP_PIN = 26
+RED_PIN = config["Hardware"]["Red"]
+GREEN_PIN = config["Hardware"]["Green"]
+DOOR_PIN = config["Hardware"]["Door"]
+BEEP_PIN = config["Hardware"]["Beep"]
 
 # mqtt
 #
@@ -84,15 +89,15 @@ def getMacAddr(ifname):
     return ''.join('%02x' % b for b in info[18:24])
             
 
-mqtt_broker_address='auth'
-mqtt_broker_port=1883
-mqtt_ssl_ca_cert='/home/pi/ssl/ca.crt'
-mqtt_ssl_client_cert='/home/pi/ssl/client.crt'
-mqtt_ssl_client_key='/home/pi/ssl/client.key'
-mqtt_node_id=getMacAddr('eth0')
-mqtt_prefix='ratt/status/node/' + mqtt_node_id
-mqtt_listen_topic='ratt/control/broadcast/#'
-mqtt_acl_update_topic='ratt/control/broadcast/acl/update'
+mqtt_broker_address = config["MQTT"]["BrokerAddress"]
+mqtt_broker_port = config["MQTT"]["BrokerPort"]
+mqtt_ssl_ca_cert = config["MQTT"]["SSLCACert"]
+mqtt_ssl_client_cert = config["MQTT"]["SSLClientCert"]
+mqtt_ssl_client_key = config["MQTT"]["SSLClientKey"]
+mqtt_node_id = getMacAddr('eth0')
+mqtt_prefix = config["MQTT"]["Prefix"] + mqtt_node_id
+mqtt_listen_topic = config["MQTT"]["ListenTopic"]
+mqtt_acl_update_topic = config["MQTT"]["ACLUpdateTopic"]
 
 # ACL update
 acl_update_script='/home/pi/doorbot/databases/auto_door_list.sh'
