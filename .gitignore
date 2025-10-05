@@ -5,3 +5,6 @@ databases/rfid
 *_rc.py
 ui_*.py
 config.ini
+ca.crt
+client.crt
+client.key
