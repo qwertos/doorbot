@@ -2,6 +2,7 @@
 curlpw
 doorbot.log
 databases/rfid
+databases/config
 *_rc.py
 ui_*.py
 config.ini
