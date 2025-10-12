@@ -55,7 +55,7 @@ botlog.addHandler(syslog)
 
 READER_TYPE = config["Reader"]["Type"]
 READER_DEVICE = config["Reader"]["Device"]
-READER_BAUD_RATE = config["Reader"]["BaudRate"]
+READER_BAUD_RATE = int(config["Reader"]["BaudRate"])
 
 #READER_TYPE = 'tormach'
 #READER_DEVICE = '/dev/ttyACM0'
