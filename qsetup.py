@@ -41,7 +41,7 @@ logging.getLogger('').addHandler(console)
 botlog.setLevel(logging.DEBUG)
 
 # remote syslog
-syslog = SysLogHandler(address=(config["Syslog"]["IP"], config["Syslog"]["Port"]))
+syslog = SysLogHandler(address=(config["Syslog"]["IP"], int(config["Syslog"]["Port"])))
 formatter = logging.Formatter('%(asctime)s : %(message)s', datefmt='%b %d %H:%M:%S')
 syslog.setFormatter(formatter)
 botlog.addHandler(syslog)
@@ -75,10 +75,10 @@ schedule = Schedule.factory('Open')
 # door_hw.py
 #
 #
-RED_PIN = config["Hardware"]["Red"]
-GREEN_PIN = config["Hardware"]["Green"]
-DOOR_PIN = config["Hardware"]["Door"]
-BEEP_PIN = config["Hardware"]["Beep"]
+RED_PIN = int(config["Hardware"]["Red"])
+GREEN_PIN = int(config["Hardware"]["Green"])
+DOOR_PIN = int(config["Hardware"]["Door"])
+BEEP_PIN = int(config["Hardware"]["Beep"])
 
 # mqtt
 #
@@ -90,7 +90,7 @@ def getMacAddr(ifname):
             
 
 mqtt_broker_address = config["MQTT"]["BrokerAddress"]
-mqtt_broker_port = config["MQTT"]["BrokerPort"]
+mqtt_broker_port = int(config["MQTT"]["BrokerPort"])
 mqtt_ssl_ca_cert = config["MQTT"]["SSLCACert"]
 mqtt_ssl_client_cert = config["MQTT"]["SSLClientCert"]
 mqtt_ssl_client_key = config["MQTT"]["SSLClientKey"]
