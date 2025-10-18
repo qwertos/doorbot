@@ -248,7 +248,7 @@ class RFIDReaderThread(QThread):
 
                         self.hw.latch(open=True)
                         self.notifier.setEnabled(False)
-                        self.latchTimer.start(4000)
+                        self.latchTimer.start(qsetup.LATCH_DELAY)
                     else:
                         # 3b. denied due to local schedule
                         botlog.warning('%s DENIED due to schedule restriction' % member)

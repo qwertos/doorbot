@@ -12,6 +12,7 @@ config.sections()
 config.read('/opt/doorbot/config.ini')
 
 botname = config["General"]["Botname"]
+LATCH_DELAY = config["General"]["LatchDelay"]
 
 
 # global app logging
